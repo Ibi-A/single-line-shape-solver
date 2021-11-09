@@ -101,6 +101,7 @@ class Graph:
 
             print("----------------------")
 
+            # /!\ This part needs to be fixed
             found_paths.append(self.current_path)
 
             return None
