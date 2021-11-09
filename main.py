@@ -137,10 +137,14 @@ edges = [
     OrientedEdge(1, 3),
     OrientedEdge(1, 4),
     OrientedEdge(1, 5),
+    OrientedEdge(1, 8),
     OrientedEdge(2, 3),
     OrientedEdge(3, 4),
     OrientedEdge(3, 5),
     OrientedEdge(4, 5),
+    OrientedEdge(4, 6),
+    OrientedEdge(5, 6),
+    OrientedEdge(5, 8)
 ]
 
 graph = Graph(edges)
