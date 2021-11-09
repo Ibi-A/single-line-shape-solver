@@ -65,22 +65,32 @@ class Graph:
     def get_current_vertex(self):
         return self.used_edges[-1].destination
 
-    def iterate(self, current_vertex: int):
+    def find_paths(self):
+        solutions = []
+
+        for i in range(1, 6):
+            solutions.append(self.iterate(i))
+
+        flat_list = [item for sublist in solutions for item in sublist]
+
+        return flat_list
+
+    def iterate(self, current_vertex: int, found_paths=[]):
         # get every available destinations from the current vertex
-        available_destinations = self.get_available_destinations_from_vertex(current_vertex)
+        available_destinations = self.get_available_destinations_from_vertex(
+            current_vertex
+        )
 
         if len(available_destinations) == 0 and len(self.remaining_edges) == 0:
-            print("----- CURRENT GRAPH -----")
-            print("> Remaining edges:")
-            for e in self.remaining_edges:
-                print(str(e))
-
-            print("> Current path:")
+            print("----- FOUND PATH -----")
             for e in self.used_edges:
                 print(str(e))
 
-            print("-------------------------")
-            return self
+            print("----------------------")
+
+            found_paths.append(self.used_edges)
+
+            return None
 
         # create subgraphs from which we will recursively iterate
         subgraphs = []
@@ -88,20 +98,41 @@ class Graph:
         for available_destination in available_destinations:
             remaining_edges = []
             for remaining_edge in self.remaining_edges:
-                remaining_edges.append(OrientedEdge(remaining_edge.origin, remaining_edge.destination))
+                remaining_edges.append(
+                    OrientedEdge(remaining_edge.origin, remaining_edge.destination)
+                )
 
             used_edges = []
             for used_edge in self.used_edges:
                 used_edges.append(OrientedEdge(used_edge.origin, used_edge.destination))
 
-            subgraphs.append(Graph(remaining_edges, used_edges, current_vertex, available_destination))
+            subgraphs.append(
+                Graph(
+                    remaining_edges, used_edges, current_vertex, available_destination
+                )
+            )
 
         # iterate recursively on each subgraph
-        for subgraph in subgraphs: 
+        for subgraph in subgraphs:
             subgraph.iterate(subgraph.get_current_vertex())
 
+        return found_paths
 
-edges = [OrientedEdge(1,2), OrientedEdge(1,3), OrientedEdge(1,4), OrientedEdge(1,5), OrientedEdge(2,3), OrientedEdge(3,4), OrientedEdge(3,5), OrientedEdge(4,5)]
+
+edges = [
+    OrientedEdge(1, 2),
+    OrientedEdge(1, 3),
+    OrientedEdge(1, 4),
+    OrientedEdge(1, 5),
+    OrientedEdge(2, 3),
+    OrientedEdge(3, 4),
+    OrientedEdge(3, 5),
+    OrientedEdge(4, 5),
+]
 graph = Graph(edges)
 
-result = graph.iterate(4)
+
+paths = graph.find_paths()
+
+for edge in paths[0]:
+    print(str(edge))
