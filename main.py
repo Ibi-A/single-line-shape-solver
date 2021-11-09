@@ -133,7 +133,6 @@ class Graph:
         return found_paths
 
 
-
 edges = [
     # OrientedEdge(1, 2),
     OrientedEdge(2, 3),
@@ -143,7 +142,7 @@ edges = [
     OrientedEdge(3, 6),
     OrientedEdge(4, 5),
     OrientedEdge(4, 6),
-    OrientedEdge(5, 6)
+    OrientedEdge(5, 6),
 ]
 
 graph = Graph(edges)
