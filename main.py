@@ -25,6 +25,19 @@ class Graph:
             self.current_path = used_edges
             self.use_edge(origin_vertex, destination_vertex)
 
+    def get_vertices(self):
+        vertices_set = set()
+
+        for edge in self.remaining_edges:
+            vertices_set.add(edge.origin)
+            vertices_set.add(edge.destination)
+
+        for edge in self.current_path:
+            vertices_set.add(edge.origin)
+            vertices_set.add(edge.destination)
+
+        return list(vertices_set)
+
     def append_available_edge(self, edge: OrientedEdge) -> None:
         if self.get_edge_in_remaining_edges(edge.origin, edge.destination) is None:
             self.remaining_edges.append(edge)
@@ -68,8 +81,8 @@ class Graph:
     def find_paths(self):
         solutions = []
 
-        for i in range(1, 6):
-            solutions.append(self.iterate(i))
+        for vertex in self.get_vertices():
+            solutions.append(self.iterate(vertex))
 
         flat_list = [item for sublist in solutions for item in sublist]
 
@@ -129,10 +142,7 @@ edges = [
     OrientedEdge(3, 5),
     OrientedEdge(4, 5),
 ]
+
 graph = Graph(edges)
 
-
 paths = graph.find_paths()
-
-for edge in paths[0]:
-    print(str(edge))
