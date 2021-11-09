@@ -16,13 +16,13 @@ class Graph:
         destination_vertex: int = None,
     ) -> None:
         self.remaining_edges = []
-        self.used_edges = []
+        self.current_path = []
 
         for remaining_edge in remaining_edges:
             self.append_available_edge(remaining_edge)
 
         if origin_vertex is not None and destination_vertex is not None:
-            self.used_edges = used_edges
+            self.current_path = used_edges
             self.use_edge(origin_vertex, destination_vertex)
 
     def append_available_edge(self, edge: OrientedEdge) -> None:
@@ -51,7 +51,7 @@ class Graph:
         self.remove_available_edge(
             self.get_edge_in_remaining_edges(origin_vertex, destination_vertex)
         )
-        self.used_edges.append(OrientedEdge(origin_vertex, destination_vertex))
+        self.current_path.append(OrientedEdge(origin_vertex, destination_vertex))
 
     def get_available_destinations_from_vertex(self, origin_vertex: int) -> list:
         available_destinations = []
@@ -63,7 +63,7 @@ class Graph:
         return available_destinations
 
     def get_current_vertex(self):
-        return self.used_edges[-1].destination
+        return self.current_path[-1].destination
 
     def find_paths(self):
         solutions = []
@@ -83,12 +83,12 @@ class Graph:
 
         if len(available_destinations) == 0 and len(self.remaining_edges) == 0:
             print("----- FOUND PATH -----")
-            for e in self.used_edges:
+            for e in self.current_path:
                 print(str(e))
 
             print("----------------------")
 
-            found_paths.append(self.used_edges)
+            found_paths.append(self.current_path)
 
             return None
 
@@ -103,7 +103,7 @@ class Graph:
                 )
 
             used_edges = []
-            for used_edge in self.used_edges:
+            for used_edge in self.current_path:
                 used_edges.append(OrientedEdge(used_edge.origin, used_edge.destination))
 
             subgraphs.append(
