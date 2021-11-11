@@ -133,7 +133,7 @@ class Graph:
         return found_paths
 
 
-edges = [
+house_edges = [
     # OrientedEdge(1, 2),
     OrientedEdge(2, 3),
     OrientedEdge(2, 4),
@@ -145,6 +145,42 @@ edges = [
     OrientedEdge(5, 6),
 ]
 
-graph = Graph(edges)
+pyramid_edges = [
+    OrientedEdge(1, 2),
+    OrientedEdge(1, 3),
+    OrientedEdge(2, 3),
+    OrientedEdge(2, 4),
+    OrientedEdge(2, 5),
+    OrientedEdge(2, 6),
+    OrientedEdge(3, 5),
+    OrientedEdge(3, 6),
+    OrientedEdge(3, 7),
+    OrientedEdge(4, 5),
+    OrientedEdge(5, 6),
+    OrientedEdge(6, 7),
+]
+
+star_edges = [
+    OrientedEdge(1, 2),
+    OrientedEdge(1, 12),
+    OrientedEdge(2, 3),
+    OrientedEdge(2, 4),
+    OrientedEdge(2, 12),
+    OrientedEdge(3, 4),
+    OrientedEdge(4, 5),
+    OrientedEdge(4, 6),
+    OrientedEdge(5, 6),
+    OrientedEdge(6, 7),
+    OrientedEdge(6, 8),
+    OrientedEdge(7, 8),
+    OrientedEdge(8, 9),
+    OrientedEdge(8, 10),
+    OrientedEdge(9, 10),
+    OrientedEdge(10, 11),
+    OrientedEdge(10, 12),
+    OrientedEdge(11, 12),
+]
+
+graph = Graph(star_edges)
 
 paths = graph.find_paths()
