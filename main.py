@@ -8,6 +8,9 @@ class OrientedEdge:
 
 
 class Graph:
+
+    found_paths = []
+
     def __init__(
         self,
         remaining_edges: list,
@@ -17,7 +20,7 @@ class Graph:
     ) -> None:
         self.remaining_edges = []
         self.current_path = []
-
+        
         for remaining_edge in remaining_edges:
             self.append_available_edge(remaining_edge)
 
@@ -81,14 +84,14 @@ class Graph:
     def find_paths(self):
         solutions = []
 
+        Graph.found_paths = []
+
         for vertex in self.get_vertices():
             solutions.append(self.iterate(vertex))
 
-        flat_list = [item for sublist in solutions for item in sublist]
+        return Graph.found_paths
 
-        return flat_list
-
-    def iterate(self, current_vertex: int, found_paths=[]):
+    def iterate(self, current_vertex: int):
         # get every available destinations from the current vertex
         available_destinations = self.get_available_destinations_from_vertex(
             current_vertex
@@ -102,7 +105,7 @@ class Graph:
             print("----------------------")
 
             # /!\ This part needs to be fixed
-            found_paths.append(self.current_path)
+            Graph.found_paths.append(self.current_path)
 
             return None
 
@@ -130,7 +133,9 @@ class Graph:
         for subgraph in subgraphs:
             subgraph.iterate(subgraph.get_current_vertex())
 
-        return found_paths
+        return None
+
+
 
 
 house_edges = [
@@ -181,6 +186,22 @@ star_edges = [
     OrientedEdge(11, 12),
 ]
 
-graph = Graph(star_edges)
+triangle_edges = [
+    OrientedEdge(1, 2),
+    OrientedEdge(1, 3),
+    OrientedEdge(2, 3)
+]
+
+graph = Graph(house_edges)
 
 paths = graph.find_paths()
+
+# print(paths)
+
+for path in paths:
+    print("----------------")
+    for e in path:
+        print(str(e))
+    print("----------------")
+
+print(len(paths))
